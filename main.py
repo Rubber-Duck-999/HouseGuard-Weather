@@ -49,7 +49,7 @@ class Temperature:
     def get_raw_temperature(self):
         '''Pick package based on arch'''
         logging.info('get_raw_temperature()')
-        raw_temp = 0
+        raw_temp = 50.0
         if self.name == 'pi':
             self.bme280 = BME280()
             raw_temp = self.bme280.get_temperature()
