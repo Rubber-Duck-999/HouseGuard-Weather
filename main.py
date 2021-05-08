@@ -20,7 +20,7 @@ class Temperature:
         # BME280 temperature/pressure/humidity sensor
         # Tuning factor for compensation. Decrease this number to adjust the
         # temperature down, and increase to adjust up
-        self.factor = 1
+        self.factor = 2.25
 
     def get_name(self):
         '''Check OS name'''
@@ -60,10 +60,13 @@ class Temperature:
             raw_temp = 0
         return raw_temp
 
+    def get_start_temperature(self):
+        '''Get list'''
+        self.cpu_temps = [self.get_cpu_temperature()] * 5
+
     def get_sensor_temperature(self):
         '''Grab the bme280 temp'''
         logging.info('get_sensor_temperature()')
-        self.cpu_temps = [self.get_cpu_temperature()] * 5
         cpu_temp = self.get_cpu_temperature()
         # Smooth out with some averaging to decrease jitter
         self.cpu_temps = self.cpu_temps[1:] + [cpu_temp]
@@ -73,6 +76,7 @@ class Temperature:
         logging.info("Temperature: {:.2f}'C".format(data))
 
 temp = Temperature()
+temp.get_start_temperature()
 while True:
     temp.get_sensor_temperature()
     time.sleep(5)
