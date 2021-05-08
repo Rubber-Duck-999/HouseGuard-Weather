@@ -7,6 +7,7 @@ import time
 import os
 import logging
 from subprocess import PIPE, Popen
+from bme280 import BME280
 
 logging.basicConfig(level=logging.INFO)
 logging.info("Starting program")
@@ -21,7 +22,7 @@ class Temperature:
         # Tuning factor for compensation. Decrease this number to adjust the
         # temperature down, and increase to adjust up
         self.factor = 1
-        self.bme280 = ''
+        self.bme280 = BME280()
 
     def get_name(self):
         '''Check OS name'''
@@ -40,11 +41,6 @@ class Temperature:
             process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE, universal_newlines=True)
             output, _error = process.communicate()
             cpu_temp = float(output[output.index('=') + 1:output.rindex("'")])
-        elif self.name == 'test':
-            tempFile = open( "/sys/class/thermal/thermal_zone0/temp" )
-            cpu_temp = tempFile.read()
-            tempFile.close()
-            cpu_temp = (float(cpu_temp)/1000, 2)
         else:
             cpu_temp = 60
         logging.info('CPU Temp: {}'.format(cpu_temp))
@@ -54,7 +50,6 @@ class Temperature:
         '''Pick package based on arch'''
         logging.info('get_raw_temperature()')
         if self.name == 'pi':
-            from bme280 import BME280
             self.bme280 = BME280()
             time.sleep(5)
             raw_temp = self.bme280.get_temperature()
