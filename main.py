@@ -23,6 +23,7 @@ class Temperature:
         # temperature down, and increase to adjust up
         self.factor = 1
         self.bme280 = BME280()
+        self.raw_temp = 0.0
 
     def get_name(self):
         '''Check OS name'''
@@ -46,18 +47,6 @@ class Temperature:
         logging.info('CPU Temp: {}'.format(cpu_temp))
         return cpu_temp
 
-    def get_raw_temperature(self):
-        '''Pick package based on arch'''
-        logging.info('get_raw_temperature()')
-        raw_temp = 50.0
-        if self.name == 'pi':
-            bus = SMBus(1)
-            self.bme280 = BME280(i2c_dev=bus)
-            #raw_temp = self.bme280.get_temperature()
-        else:
-            raw_temp = 0
-        return raw_temp
-
     def get_start_temperature(self):
         '''Get list'''
         self.cpu_temps = [self.get_cpu_temperature()] * 5
@@ -71,7 +60,7 @@ class Temperature:
         logging.info('CPUs Temp: {}'.format(self.cpu_temps))
         avg_cpu_temp = sum(self.cpu_temps) / float(len(self.cpu_temps))
         logging.info('Average Temp: {}'.format(avg_cpu_temp))
-        raw_temp = self.get_raw_temperature()
+        raw_temp = self.bme280.get_temperature()
         logging.info('Raw Temp: {}'.format(raw_temp))
         data = raw_temp - ((avg_cpu_temp - raw_temp) / self.factor)
         logging.info("Temperature: {:.2f}'C".format(data))
