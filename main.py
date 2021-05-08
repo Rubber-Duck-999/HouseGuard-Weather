@@ -21,6 +21,7 @@ class Temperature:
         # Tuning factor for compensation. Decrease this number to adjust the
         # temperature down, and increase to adjust up
         self.factor = 2.25
+        self.bme280 = ''
 
     def get_name(self):
         '''Check OS name'''
@@ -54,8 +55,9 @@ class Temperature:
         logging.info('get_raw_temperature()')
         if self.name == 'pi':
             from bme280 import BME280
-            sensor = BME280()
-            raw_temp = sensor.get_temperature()
+            self.bme280 = BME280()
+            time.sleep(5)
+            raw_temp = self.bme280.get_temperature()
         else:
             raw_temp = 0
         return raw_temp
