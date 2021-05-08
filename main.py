@@ -44,7 +44,7 @@ class Temperature:
             tempFile = open( "/sys/class/thermal/thermal_zone0/temp" )
             cpu_temp = tempFile.read()
             tempFile.close()
-            cpu_temp = round(float(cpu_temp)/1000, 2)
+            cpu_temp = (float(cpu_temp)/1000, 2)
         else:
             cpu_temp = 60
         logging.info('CPU Temp: {}'.format(cpu_temp))
