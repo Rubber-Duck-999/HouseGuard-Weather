@@ -52,7 +52,7 @@ class Temperature:
         raw_temp = 50.0
         if self.name == 'pi':
             self.bme280 = BME280()
-            raw_temp = self.bme280.get_temperature()
+            #raw_temp = self.bme280.get_temperature()
         else:
             raw_temp = 0
         return raw_temp
