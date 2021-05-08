@@ -51,7 +51,8 @@ class Temperature:
         logging.info('get_raw_temperature()')
         raw_temp = 50.0
         if self.name == 'pi':
-            self.bme280 = BME280()
+            bus = SMBus(1)
+            self.bme280 = BME280(i2c_dev=bus)
             #raw_temp = self.bme280.get_temperature()
         else:
             raw_temp = 0
