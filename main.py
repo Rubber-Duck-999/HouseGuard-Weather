@@ -20,7 +20,7 @@ class Temperature:
         # BME280 temperature/pressure/humidity sensor
         # Tuning factor for compensation. Decrease this number to adjust the
         # temperature down, and increase to adjust up
-        self.factor = 2.25
+        self.factor = 1
 
     def get_name(self):
         '''Check OS name'''
