@@ -70,8 +70,11 @@ class Temperature:
         cpu_temp = self.get_cpu_temperature()
         # Smooth out with some averaging to decrease jitter
         self.cpu_temps = self.cpu_temps[1:] + [cpu_temp]
+        logging.info('CPUs Temp: {}'.format(cpu_temp))
         avg_cpu_temp = sum(self.cpu_temps) / float(len(self.cpu_temps))
+        logging.info('Average Temp: {}'.format(avg_cpu_temp))
         raw_temp = self.get_raw_temperature()
+        logging.info('Raw Temp: {}'.format(raw_temp))
         data = raw_temp - ((avg_cpu_temp - raw_temp) / self.factor)
         logging.info("Temperature: {:.2f}'C".format(data))
 
