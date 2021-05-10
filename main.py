@@ -41,6 +41,7 @@ class Temperature:
             self.send_data = True
         except KeyError:
             logging.error("Variables not set")
+        self.wait_time = self.wait_time * Temperature.SECONDS_PER_MINUTE
 
     def get_cpu_temperature(self):
         '''Get the temperature of the CPU for compensation'''
