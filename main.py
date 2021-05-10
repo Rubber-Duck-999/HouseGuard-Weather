@@ -79,6 +79,7 @@ class Temperature:
 
     def loop(self):
         '''Loop through sensor and publish'''
+        self.get_env_var()
         while True:
             self.get_sensor_temperature()
             self.publish_data()
