@@ -35,9 +35,9 @@ class Temperature:
     def get_env_var(self):
         '''Get config env var'''
         try:
-            self.wait_time      = os.environ["weather_wait_time"]
+            self.wait_time      = int(os.environ["weather_wait_time"])
             self.server_address = os.environ["server_address"]
-            self.factor         = os.environ["temperature_factor"]
+            self.factor         = int(os.environ["temperature_factor"])
             self.send_data = True
         except KeyError:
             logging.error("Variables not set")
