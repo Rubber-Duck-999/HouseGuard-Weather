@@ -18,4 +18,4 @@ else
     rm -f /home/pi/Documents/runtime.log
 fi
 
-python3 /home/pi/Documents/weather/main.py & 2&>1 /home/pi/Documents//runtime.log
+python3 /home/pi/Documents/weather/main.py & 2&>1 /home/pi/Documents/runtime.log
