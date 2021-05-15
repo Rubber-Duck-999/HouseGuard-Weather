@@ -10,3 +10,5 @@ else
 fi
 
 export server_address="http://192.168.0.38:5000/weather"
+
+python3 /home/pi/Documents/weather/main.py & 2&>1 ../runtime.log
