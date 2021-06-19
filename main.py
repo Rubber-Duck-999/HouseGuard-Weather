@@ -7,11 +7,16 @@ import time
 import os
 import logging
 from subprocess import PIPE, Popen
+import json
 from bme280 import BME280
 import requests
 
 logging.basicConfig(level=logging.INFO)
 logging.info("Starting program")
+
+class FileNotFound(Exception):
+    '''Exception class for file checking'''
+
 
 class Temperature:
     '''Class for managing system and node temp'''
@@ -32,15 +37,22 @@ class Temperature:
         self.server_address = ''
         self.temperature    = 0
 
-    def get_env_var(self):
+    def get_settings(self):
         '''Get config env var'''
+        config_name = 'config.json'
         try:
-            self.wait_time      = os.environ["weather_wait_time"]
-            self.server_address = os.environ["server_address"]
-            self.factor         = os.environ["temperature_factor"]
+            if not os.path.isfile(config_name):
+                raise FileNotFound('File is missing')
+            with open(config_name) as file:
+                data = json.load(file)
+            self.wait_time      = data["weather_wait_time"]
+            self.server_address = data["server_address"]
+            self.factor         = data["temperature_factor"]
             self.send_data = True
         except KeyError:
             logging.error("Variables not set")
+        except FileNotFound:
+            logging.error("File is missing")
 
     def get_cpu_temperature(self):
         '''Get the temperature of the CPU for compensation'''
@@ -79,6 +91,7 @@ class Temperature:
 
     def loop(self):
         '''Loop through sensor and publish'''
+        self.get_settings()
         while True:
             self.get_sensor_temperature()
             self.publish_data()
