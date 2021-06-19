@@ -97,5 +97,6 @@ class Temperature:
             self.publish_data()
             time.sleep(self.wait_time)
 
-temp = Temperature()
-temp.loop()
+if __name__ == "__main__":
+    temp = Temperature()
+    temp.loop()
