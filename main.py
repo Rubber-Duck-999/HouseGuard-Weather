@@ -49,7 +49,7 @@ class Temperature:
             self.wait_time      = data["weather_wait_time"]
             self.server_address = 'http://{}'.format(data["server_address"])
             self.factor         = data["temperature_factor"]
-            #self.send_data = True
+            self.send_data = True
         except KeyError:
             logging.error("Variables not set")
         except FileNotFound:
